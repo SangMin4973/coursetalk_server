@@ -54,6 +54,13 @@ app.add_middleware(
 def health():
     return {"status": "ok", "service": settings.app_name}
 
+@app.get("/")
+def root():
+    return {
+        "status": "running",
+        "service": settings.app_name
+    }
+
 
 app.include_router(places.router, prefix="/api")
 app.include_router(itineraries.router, prefix="/api")

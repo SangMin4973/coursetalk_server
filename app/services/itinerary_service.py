@@ -202,9 +202,8 @@ def _openai_selection(
 {candidate_text}
 """.strip()
 
-    from openai import OpenAI
+    from app.services.openai_client import client
 
-    client = OpenAI(api_key=settings.openai_api_key)
     response = client.responses.parse(
         model=settings.openai_model,
         instructions=instructions,

@@ -31,6 +31,14 @@ async def lifespan(_: FastAPI):
                     logger.info("공공데이터 장소 %s건을 적재했습니다.", imported)
         except Exception:
             logger.exception("장소 데이터 자동 적재에 실패했습니다.")
+    
+    if settings.openai_api_key:
+        try:
+            from app.services.openai_client import client
+            logger.info("OpenAI client ready")
+        except Exception:
+            logger.exception("OpenAI initialization failed")
+            
     yield
 
 

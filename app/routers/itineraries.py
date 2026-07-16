@@ -13,13 +13,34 @@ from app.services.itinerary_service import generate_itinerary
 router = APIRouter(prefix="/itineraries", tags=["itineraries"])
 
 
+# @router.post("/generate", response_model=ItineraryResponse)
+# def create_itinerary(
+#     payload: ItineraryRequest,
+#     db: sqlite3.Connection = Depends(get_db),
+#     settings: Settings = Depends(get_settings),
+# ):
+#     try:
+#         return generate_itinerary(db, settings, payload)
+#     except ValueError as exc:
+#         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+# 디버깅 코드
 @router.post("/generate", response_model=ItineraryResponse)
 def create_itinerary(
     payload: ItineraryRequest,
     db: sqlite3.Connection = Depends(get_db),
     settings: Settings = Depends(get_settings),
 ):
+    print("1. request received")
+
     try:
-        return generate_itinerary(db, settings, payload)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        result = generate_itinerary(db, settings, payload)
+
+        print("2. itinerary generated")
+
+        return result
+
+    except Exception as exc:
+        print("ERROR:", repr(exc))
+        raise
